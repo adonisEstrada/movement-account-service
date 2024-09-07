@@ -1,0 +1,35 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: prod
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+          batch_size: 128
+          fetch_size: 128
+          order_inserts: true
+          order_updates: true
+          batch_versioned_data: true
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+  liquibase:
+    enabled: false
+    change-log: classpath:db.changelog.xml
+    contexts: ${spring.profiles.active}
+feign:
+  client:
+    client-person: ${CLIENT_PERSON_SERVICE}
+

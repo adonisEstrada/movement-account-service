@@ -1,0 +1,101 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet author="adonis.estrada" id="0001">
+        <createTable tableName="persons">
+            <column name="person_id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="persons_pk"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="gender" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="age" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="identification" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="adonis.estrada" id="0002">
+        <createTable tableName="clients">
+            <column name="person_id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="clients_pk"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="adonis.estrada" id="0003">
+        <createTable tableName="accounts">
+            <column name="account_id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="accounts_pk"/>
+            </column>
+            <column name="account_number" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="initial_balance" type="numeric(16, 6)" defaultValueComputed="0.00">
+            </column>
+            <column name="status" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="client_id" type="UUID"></column>
+        </createTable>
+    </changeSet>
+    <changeSet author="adonis.estrada" id="0004">
+        <createTable tableName="movements">
+            <column name="movement_id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="movements_pk"/>
+            </column>
+            <column name="transaction_date" type="TIMESTAMP"></column>
+            <column name="movement_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="numeric(16, 6)" defaultValueComputed="0.00">
+            </column>
+            <column name="current_balance" type="numeric(16, 6)" defaultValueComputed="0.00">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_id" type="UUID"></column>
+        </createTable>
+    </changeSet>
+    <changeSet author="adonis.estrada" id="0005">
+    <addForeignKeyConstraint baseColumnNames="person_id" baseTableName="clients"
+                             constraintName="client_person_fk" deferrable="false"
+                             initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                             referencedColumnNames="person_id"
+                             referencedTableName="persons" validate="true"/>
+    </changeSet>
+    <changeSet author="adonis.estrada" id="0006">
+    <addForeignKeyConstraint baseColumnNames="client_id" baseTableName="accounts"
+                             constraintName="accounts_client_fk" deferrable="false"
+                             initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                             referencedColumnNames="person_id"
+                             referencedTableName="clients" validate="true"/>
+    </changeSet>
+    <changeSet author="adonis.estrada" id="0007">
+    <addForeignKeyConstraint baseColumnNames="account_id" baseTableName="movements"
+                             constraintName="fk_movements_account" deferrable="false"
+                             initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                             referencedColumnNames="account_id"
+                             referencedTableName="accounts" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
