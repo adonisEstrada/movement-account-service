@@ -6,7 +6,7 @@ spring:
   application:
     name: dev
   datasource:
-    url: jdbc:postgresql://localhost:5432/nttdata
+    url: jdbc:postgresql://localhost:5432/challenge
     username: postgres
     password: postgres
   liquibase:
